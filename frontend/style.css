@@ -1,17 +1,17 @@
 body {
     font-family: sans-serif;
     padding: 1rem;
+    text-align: center;
 }
 
 .image-container {
     position: relative;
     display: inline-block;
-    max-width: 500px;
 }
 
 .image-container img {
-    width: 100%;
-    height: auto;
+    max-height: 480px;
+    object-fit: contain;
 }
 
 .emoji-marker {
@@ -40,7 +40,8 @@ body {
 }
 
 /* Fixed position buttons */
-#addMarker, #download {
+#addMarker,
+#download {
     position: fixed;
     right: 20px;
     width: 140px;
@@ -52,7 +53,8 @@ body {
     position: fixed;
     left: 20px;
     bottom: 20px;
-    width: 140px;
+    width: auto;
+    z-index: 1000;
 }
 
 #addMarker {
