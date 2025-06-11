@@ -1,5 +1,6 @@
 const imageUpload = document.getElementById('imageUpload');
 const container = document.querySelector('.image-container');
+const addMarkerBtn = document.getElementById('addMarker');
 let uploadedImage;
 
 imageUpload.addEventListener('change', async e => {
@@ -26,28 +27,18 @@ imageUpload.addEventListener('change', async e => {
         const detections = await faceapi.detectAllFaces(uploadedImage);
 
         // Create emoji markers
-        detections.forEach((det, i) => {
+        detections.forEach(det => {
             const { x, y, width, height } = det.box;
-            const span = document.createElement('span');
-            span.className = 'emoji-marker';
-            span.textContent = '😊';
-            span.style.left = x + 'px';
-            span.style.top = y + 'px';
-            span.style.width = width + 'px';
-            span.style.height = height + 'px';
-
-            // Toggle visibility
-            span.addEventListener('click', e => {
-                e.stopPropagation();
-                span.style.display = span.style.display === 'none' ? 'flex' : 'none';
-            });
-
-            // Enable drag & resize
-            makeDraggableResizable(span);
-
+            const span = createMarker(x, y, width, height);
             container.appendChild(span);
         });
     };
+});
+
+addMarkerBtn.addEventListener('click', () => {
+    if (!uploadedImage) return;
+    const span = createMarker(0, 0, 80, 80);
+    container.appendChild(span);
 });
 
 document.getElementById('download').addEventListener('click', () => {
@@ -59,7 +50,7 @@ document.getElementById('download').addEventListener('click', () => {
     ctx.drawImage(uploadedImage, 0, 0);
 
     document.querySelectorAll('.emoji-marker').forEach(span => {
-        if (span.style.display === 'none') return;
+        if (span.classList.contains('hidden')) return;
         const x = parseFloat(span.style.left);
         const y = parseFloat(span.style.top);
         const h = parseFloat(span.style.height);
@@ -100,4 +91,23 @@ function makeDraggableResizable(el) {
         dragging = false;
         el.releasePointerCapture(e.pointerId);
     });
+}
+
+function createMarker(x, y, width, height) {
+    const span = document.createElement('span');
+    span.className = 'emoji-marker';
+    span.textContent = '😊';
+    span.style.left = x + 'px';
+    span.style.top = y + 'px';
+    span.style.width = width + 'px';
+    span.style.height = height + 'px';
+    span.style.fontSize = height + 'px';
+
+    span.addEventListener('click', e => {
+        e.stopPropagation();
+        span.classList.toggle('hidden');
+    });
+
+    makeDraggableResizable(span);
+    return span;
 }
