@@ -14,8 +14,12 @@
    pip install -r backend/requirements.txt
    ```
 3. **モデルファイルを配置**
-   - `frontend/models` に face-api.js のモデルファイル（`ssd_mobilenetv1_model-weights_manifest.json` など）を配置します。
-   - モデルは [face-api.js](https://github.com/justadudewhohacks/face-api.js/) から入手してください。
+   - `frontend/models` に face-api.js のモデルファイルを配置します。
+   - 以下のスクリプトで自動ダウンロードできます。
+     ```bash
+     ./scripts/download_models.sh
+     ```
+   - 手動で入手する場合は [face-api.js](https://github.com/justadudewhohacks/face-api.js/) の `weights` ディレクトリから取得してください。
 4. **サーバー起動**
    ```bash
    cd backend
