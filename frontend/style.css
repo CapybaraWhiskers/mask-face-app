@@ -23,7 +23,9 @@ body {
     font-size: 1rem;
 }
 
-.emoji-marker.hidden {
+
+/* Marker becomes semi-transparent when dimmed */
+.emoji-marker.dimmed {
     opacity: 0.3;
 }
 
@@ -34,4 +36,21 @@ body {
 #loading {
     margin-top: 1rem;
     font-weight: bold;
+}
+
+/* Fixed position buttons */
+#addMarker, #download {
+    position: fixed;
+    right: 20px;
+    width: 140px;
+    height: 40px;
+    font-size: 14px;
+}
+
+#addMarker {
+    bottom: 70px;
+}
+
+#download {
+    bottom: 20px;
 }

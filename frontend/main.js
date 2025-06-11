@@ -61,7 +61,7 @@ document.getElementById('download').addEventListener('click', () => {
     const scaleY = uploadedImage.naturalHeight / uploadedImage.clientHeight;
 
     document.querySelectorAll('.emoji-marker').forEach(span => {
-        if (span.classList.contains('hidden')) return;
+        if (span.classList.contains('dimmed')) return;
         const left = parseFloat(span.style.left);
         const top = parseFloat(span.style.top);
         const width = parseFloat(span.style.width);
@@ -137,7 +137,7 @@ function createMarker(x, y, width, height) {
             span._wasDragged = false;
             return;
         }
-        span.classList.toggle('hidden');
+        span.classList.toggle('dimmed');
     });
 
     makeDraggableResizable(span);
