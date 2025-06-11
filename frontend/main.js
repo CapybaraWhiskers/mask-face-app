@@ -29,10 +29,14 @@ imageUpload.addEventListener('change', async e => {
 
         container.appendChild(uploadedImage);
 
+        // Scale face detection boxes to the displayed image size
+        const scaleX = uploadedImage.clientWidth / uploadedImage.naturalWidth;
+        const scaleY = uploadedImage.clientHeight / uploadedImage.naturalHeight;
+
         // Create emoji markers
         detections.forEach(det => {
             const { x, y, width, height } = det.box;
-            const span = createMarker(x, y, width, height);
+            const span = createMarker(x * scaleX, y * scaleY, width * scaleX, height * scaleY);
             container.appendChild(span);
         });
 

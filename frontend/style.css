@@ -50,8 +50,8 @@ body {
 
 #imageUpload {
     position: fixed;
-    right: 20px;
-    bottom: 120px;
+    left: 20px;
+    bottom: 20px;
     width: 140px;
 }
 
