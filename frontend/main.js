@@ -18,13 +18,13 @@ imageUpload.addEventListener('change', async e => {
     uploadedImage.src = url;
     uploadedImage.id = 'uploadedImage';
     uploadedImage.onload = async () => {
-        container.appendChild(uploadedImage);
-
         // Load face-api.js model
         await faceapi.nets.ssdMobilenetv1.loadFromUri('models');
 
-        // Detect faces
+        // Detect faces before showing the image
         const detections = await faceapi.detectAllFaces(uploadedImage);
+
+        container.appendChild(uploadedImage);
 
         // Create emoji markers
         detections.forEach(det => {
@@ -37,7 +37,10 @@ imageUpload.addEventListener('change', async e => {
 
 addMarkerBtn.addEventListener('click', () => {
     if (!uploadedImage) return;
-    const span = createMarker(0, 0, 80, 80);
+    const size = 80;
+    const x = (uploadedImage.clientWidth - size) / 2;
+    const y = (uploadedImage.clientHeight - size) / 2;
+    const span = createMarker(x, y, size, size);
     container.appendChild(span);
 });
 
@@ -49,11 +52,14 @@ document.getElementById('download').addEventListener('click', () => {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(uploadedImage, 0, 0);
 
+    const scaleX = uploadedImage.naturalWidth / uploadedImage.clientWidth;
+    const scaleY = uploadedImage.naturalHeight / uploadedImage.clientHeight;
+
     document.querySelectorAll('.emoji-marker').forEach(span => {
         if (span.classList.contains('hidden')) return;
-        const x = parseFloat(span.style.left);
-        const y = parseFloat(span.style.top);
-        const h = parseFloat(span.style.height);
+        const x = parseFloat(span.style.left) * scaleX;
+        const y = parseFloat(span.style.top) * scaleY;
+        const h = parseFloat(span.style.height) * scaleY;
         ctx.font = `${h}px serif`;
         ctx.textBaseline = 'top';
         ctx.fillText(span.textContent, x, y);
@@ -72,6 +78,7 @@ function makeDraggableResizable(el) {
     el.addEventListener('pointerdown', e => {
         e.stopPropagation();
         dragging = true;
+        el._wasDragged = false;
         startX = e.clientX;
         startY = e.clientY;
         startLeft = parseFloat(el.style.left);
@@ -85,11 +92,22 @@ function makeDraggableResizable(el) {
         const dy = e.clientY - startY;
         el.style.left = startLeft + dx + 'px';
         el.style.top = startTop + dy + 'px';
+        el._wasDragged = true;
     });
 
     el.addEventListener('pointerup', e => {
         dragging = false;
         el.releasePointerCapture(e.pointerId);
+    });
+
+    el.addEventListener('wheel', e => {
+        e.preventDefault();
+        let size = parseFloat(el.style.width);
+        size += e.deltaY < 0 ? 5 : -5;
+        size = Math.max(10, size);
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.fontSize = size + 'px';
     });
 }
 
@@ -105,6 +123,10 @@ function createMarker(x, y, width, height) {
 
     span.addEventListener('click', e => {
         e.stopPropagation();
+        if (span._wasDragged) {
+            span._wasDragged = false;
+            return;
+        }
         span.classList.toggle('hidden');
     });
 
