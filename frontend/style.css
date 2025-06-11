@@ -6,10 +6,11 @@ body {
 .image-container {
     position: relative;
     display: inline-block;
+    max-width: 500px;
 }
 
 .image-container img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
 }
 
@@ -45,6 +46,13 @@ body {
     width: 140px;
     height: 40px;
     font-size: 14px;
+}
+
+#imageUpload {
+    position: fixed;
+    right: 20px;
+    bottom: 120px;
+    width: 140px;
 }
 
 #addMarker {
