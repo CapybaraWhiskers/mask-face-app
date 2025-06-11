@@ -14,12 +14,11 @@
    pip install -r backend/requirements.txt
    ```
 3. **モデルファイルを配置**
-   - `frontend/models` に face-api.js のモデルファイルを配置します。
-   - 以下のスクリプトで自動ダウンロードできます。
+   - モデルはすでに `frontend/models` ディレクトリに含まれています。
+   - 新しいバージョンを取得したい場合は次のスクリプトを実行してください。
      ```bash
      ./scripts/download_models.sh
      ```
-   - 手動で入手する場合は [face-api.js](https://github.com/justadudewhohacks/face-api.js/) の `weights` ディレクトリから取得してください。
 4. **サーバー起動**
    ```bash
    cd backend
