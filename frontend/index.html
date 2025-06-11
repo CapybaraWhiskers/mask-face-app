@@ -11,7 +11,8 @@
 <body>
     <div class="app-card">
         <h1>Mask Face App</h1>
-        <input type="file" id="imageUpload" accept="image/jpeg,image/png" />
+        <label for="imageUpload" class="custom-file-label">Upload Image</label>
+        <input type="file" id="imageUpload" style="display: none;" accept="image/jpeg,image/png" />
         <div id="loading" class="hidden">Processing...</div>
         <div class="image-container"></div>
         <div class="button-row">

@@ -26,6 +26,7 @@ body {
 .image-container {
     position: relative;
     display: inline-block;
+    margin: 0 auto;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -49,8 +50,8 @@ body {
 }
 
 .emoji-marker:hover {
-    transform: scale(1.2);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transform: scale(1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
 
@@ -93,7 +94,22 @@ body {
     transform: translateY(-2px);
 }
 
-#imageUpload {
-    width: 200px;
-    margin: 0 auto;
+.custom-file-label {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    margin: auto;
+    background: var(--accent-color);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.custom-file-label:hover {
+    background: #5848d6;
+    transform: translateY(-2px);
 }
