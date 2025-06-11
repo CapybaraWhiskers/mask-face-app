@@ -26,3 +26,12 @@ body {
 .emoji-marker.hidden {
     opacity: 0.3;
 }
+
+.hidden {
+    display: none;
+}
+
+#loading {
+    margin-top: 1rem;
+    font-weight: bold;
+}
