@@ -1,11 +1,14 @@
 const imageUpload = document.getElementById('imageUpload');
 const container = document.querySelector('.image-container');
 const addMarkerBtn = document.getElementById('addMarker');
+const loading = document.getElementById('loading');
 let uploadedImage;
 
 imageUpload.addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
+
+    loading.classList.remove('hidden');
 
     // Upload to Flask and get a data URL
     const form = new FormData();
@@ -32,6 +35,8 @@ imageUpload.addEventListener('change', async e => {
             const span = createMarker(x, y, width, height);
             container.appendChild(span);
         });
+
+        loading.classList.add('hidden');
     };
 });
 
@@ -57,12 +62,17 @@ document.getElementById('download').addEventListener('click', () => {
 
     document.querySelectorAll('.emoji-marker').forEach(span => {
         if (span.classList.contains('hidden')) return;
-        const x = parseFloat(span.style.left) * scaleX;
-        const y = parseFloat(span.style.top) * scaleY;
-        const h = parseFloat(span.style.height) * scaleY;
-        ctx.font = `${h}px serif`;
-        ctx.textBaseline = 'top';
-        ctx.fillText(span.textContent, x, y);
+        const left = parseFloat(span.style.left);
+        const top = parseFloat(span.style.top);
+        const width = parseFloat(span.style.width);
+        const height = parseFloat(span.style.height);
+        const centerX = (left + width / 2) * scaleX;
+        const centerY = (top + height / 2) * scaleY;
+        const fontSize = height * scaleY;
+        ctx.font = `${fontSize}px serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(span.textContent, centerX, centerY);
     });
 
     const link = document.createElement('a');
