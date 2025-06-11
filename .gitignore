@@ -12,3 +12,4 @@ __pycache__/
 # --- OS 関連 ---
 .DS_Store
 Thumbs.db
+frontend/models/
