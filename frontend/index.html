@@ -9,12 +9,16 @@
 </head>
 
 <body>
-    <h1>Mask Face App</h1>
-    <input type="file" id="imageUpload" accept="image/jpeg,image/png" />
-    <div id="loading" class="hidden">Processing...</div>
-    <div class="image-container"></div>
-    <button id="addMarker">Add Marker</button>
-    <button id="download">Download Masked Image</button>
+    <div class="app-card">
+        <h1>Mask Face App</h1>
+        <input type="file" id="imageUpload" accept="image/jpeg,image/png" />
+        <div id="loading" class="hidden">Processing...</div>
+        <div class="image-container"></div>
+        <div class="button-row">
+            <button id="addMarker">Add Marker</button>
+            <button id="download">Download Masked Image</button>
+        </div>
+    </div>
 
     <script src="libs/face-api.min.js"></script>
     <script src="main.js"></script>
