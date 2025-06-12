@@ -4,6 +4,16 @@ const addMarkerBtn = document.getElementById('addMarker');
 const loading = document.getElementById('loading');
 let uploadedImage;
 
+const expressionEmojiMap = {
+    angry: '😠',
+    disgusted: '🤢',
+    fearful: '😨',
+    happy: '😄',
+    neutral: '😐',
+    sad: '😢',
+    surprised: '😮'
+};
+
 imageUpload.addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -21,11 +31,14 @@ imageUpload.addEventListener('change', async e => {
     uploadedImage.src = url;
     uploadedImage.id = 'uploadedImage';
     uploadedImage.onload = async () => {
-        // Load face-api.js model
+        // Load face-api.js models
         await faceapi.nets.ssdMobilenetv1.loadFromUri('models');
+        await faceapi.nets.faceExpressionNet.loadFromUri('models');
 
-        // Detect faces before showing the image
-        const detections = await faceapi.detectAllFaces(uploadedImage);
+        // Detect faces with expression info before showing the image
+        const detections = await faceapi
+            .detectAllFaces(uploadedImage)
+            .withFaceExpressions();
 
         container.appendChild(uploadedImage);
 
@@ -35,8 +48,17 @@ imageUpload.addEventListener('change', async e => {
 
         // Create emoji markers
         detections.forEach(det => {
-            const { x, y, width, height } = det.box;
-            const span = createMarker(x * scaleX, y * scaleY, width * scaleX, height * scaleY);
+            const { x, y, width, height } = det.detection.box;
+            const expressions = det.expressions;
+            const best = Object.keys(expressions).reduce((a, b) => expressions[a] > expressions[b] ? a : b);
+            const emoji = expressionEmojiMap[best] || '😊';
+            const span = createMarker(
+                x * scaleX,
+                y * scaleY,
+                width * scaleX,
+                height * scaleY,
+                emoji
+            );
             container.appendChild(span);
         });
 
@@ -125,10 +147,10 @@ function makeDraggableResizable(el) {
     });
 }
 
-function createMarker(x, y, width, height) {
+function createMarker(x, y, width, height, emoji = '😊') {
     const span = document.createElement('span');
     span.className = 'emoji-marker';
-    span.textContent = '😊';
+    span.textContent = emoji;
     span.style.left = x + 'px';
     span.style.top = y + 'px';
     span.style.width = width + 'px';
