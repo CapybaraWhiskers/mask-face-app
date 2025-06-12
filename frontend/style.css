@@ -75,6 +75,12 @@ body {
     justify-content: center;
 }
 
+.emoji-selector {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
 #addMarker,
 #download {
     padding: 0.5rem 1rem;
