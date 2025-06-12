@@ -119,3 +119,19 @@ body {
     background: #5848d6;
     transform: translateY(-2px);
 }
+
+.mask-type-selector {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#mosaicSize {
+    width: 150px;
+}
+
+.mosaic-marker {
+    position: absolute;
+    cursor: move;
+    user-select: none;
+}
