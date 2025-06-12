@@ -4,12 +4,22 @@ const addMarkerBtn = document.getElementById('addMarker');
 const loading = document.getElementById('loading');
 const maskTypeSelector = document.getElementById('maskType');
 const mosaicSizeInput = document.getElementById('mosaicSize');
+const emojiSelector = document.getElementById('emojiSelector');
 let maskType = maskTypeSelector ? maskTypeSelector.value : 'emoji';
 let mosaicSize = mosaicSizeInput ? parseInt(mosaicSizeInput.value) : 10;
 let uploadedImage;
 
-if (maskType === 'mosaic' && mosaicSizeInput) {
-    mosaicSizeInput.style.display = 'inline-block';
+if (maskType === 'mosaic') {
+    if (mosaicSizeInput) {
+        mosaicSizeInput.style.display = 'inline-block';
+    }
+    if (emojiSelector) {
+        emojiSelector.style.display = 'none';
+    }
+} else {
+    if (emojiSelector) {
+        emojiSelector.style.display = 'inline-block';
+    }
 }
 
 const expressionEmojiMap = {
@@ -27,8 +37,14 @@ if (maskTypeSelector) {
         maskType = maskTypeSelector.value;
         if (maskType === 'mosaic') {
             mosaicSizeInput.style.display = 'inline-block';
+            if (emojiSelector) {
+                emojiSelector.style.display = 'none';
+            }
         } else {
             mosaicSizeInput.style.display = 'none';
+            if (emojiSelector) {
+                emojiSelector.style.display = 'inline-block';
+            }
         }
     });
 }
