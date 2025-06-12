@@ -30,10 +30,11 @@ function makeDraggableResizable(el, onUpdate) {
     if (onUpdate) onUpdate(el)
   })
 
+  const SIZE_STEP = 5
   el.addEventListener('wheel', e => {
     e.preventDefault()
     let size = parseFloat(el.style.width)
-    size += e.deltaY < 0 ? 5 : -5
+    size += Math.sign(e.deltaY) * -SIZE_STEP
     size = Math.max(10, size)
     el.style.width = size + 'px'
     el.style.height = size + 'px'
