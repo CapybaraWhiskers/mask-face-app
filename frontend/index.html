@@ -16,6 +16,10 @@
         <div id="loading" class="hidden">Processing...</div>
         <div class="image-container"></div>
         <div class="button-row">
+            <select id="maskType" class="mask-type-selector">
+                <option value="emoji">Emoji</option>
+                <option value="mosaic">Mosaic</option>
+            </select>
             <select id="emojiSelector" class="emoji-selector">
                 <option value="😊">😊</option>
                 <option value="😠">😠</option>
@@ -26,6 +30,7 @@
                 <option value="😢">😢</option>
                 <option value="😮">😮</option>
             </select>
+            <input type="range" id="mosaicSize" min="5" max="50" value="10" style="display: none;" />
             <button id="addMarker">Add Marker</button>
             <button id="download">Download Masked Image</button>
         </div>
