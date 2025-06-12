@@ -71,7 +71,9 @@ addMarkerBtn.addEventListener('click', () => {
     const size = 80;
     const x = (uploadedImage.clientWidth - size) / 2;
     const y = (uploadedImage.clientHeight - size) / 2;
-    const span = createMarker(x, y, size, size);
+    const selector = document.getElementById('emojiSelector');
+    const emoji = selector ? selector.value : '😊';
+    const span = createMarker(x, y, size, size, emoji);
     container.appendChild(span);
 });
 
