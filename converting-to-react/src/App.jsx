@@ -1,6 +1,9 @@
 /* global faceapi */
 import { useEffect, useRef, useState } from 'react'
 import Marker from './components/Marker'
+import ImageUploader from './components/ImageUploader'
+import ImagePreview from './components/ImagePreview'
+import Controls from './components/Controls'
 import './App.css'
 
 const expressionEmojiMap = {
@@ -160,43 +163,26 @@ function App() {
   return (
     <div className="app-card">
       <h1>Mask Face App</h1>
-      <label htmlFor="imageUpload" className="custom-file-label">Upload Image</label>
-      <input type="file" id="imageUpload" accept="image/jpeg,image/png" style={{ display: 'none' }} onChange={handleImageChange} />
-      {loading && <div id="loading">Processing...</div>}
-      <div className="image-container" ref={node => { if (node) node.onclick = () => setMarkers(m => m) }}>
-        {imageUrl && <img src={imageUrl} alt="uploaded" id="uploadedImage" onLoad={handleImageLoad} />}
-        {markers.map(marker => (
-          <Marker
-            key={marker.id}
-            marker={marker}
-            uploadedImage={imgRef.current}
-            onUpdate={updateMarker}
-            onToggle={toggleMarker}
-          />
-        ))}
-      </div>
-      <div className="button-row">
-        <select id="maskType" className="mask-type-selector" value={maskType} onChange={e => setMaskType(e.target.value)}>
-          <option value="emoji">Emoji</option>
-          <option value="mosaic">Mosaic</option>
-        </select>
-        {maskType === 'emoji' ? (
-          <select id="emojiSelector" className="emoji-selector" value={emoji} onChange={e => setEmoji(e.target.value)}>
-            <option value="😊">😊</option>
-            <option value="😠">😠</option>
-            <option value="🤢">🤢</option>
-            <option value="😨">😨</option>
-            <option value="😄">😄</option>
-            <option value="😐">😐</option>
-            <option value="😢">😢</option>
-            <option value="😮">😮</option>
-          </select>
-        ) : (
-          <input type="range" id="mosaicSize" min="5" max="50" value={mosaicSize} onChange={e => setMosaicSize(parseInt(e.target.value))} />
-        )}
-        <button id="addMarker" onClick={addMarker}>Add Marker</button>
-        <button id="download" onClick={downloadImage}>Download Masked Image</button>
-      </div>
+      <ImageUploader onChange={handleImageChange} loading={loading} />
+      <ImagePreview
+        imageUrl={imageUrl}
+        markers={markers}
+        imgRef={imgRef}
+        onLoad={handleImageLoad}
+        onUpdate={updateMarker}
+        onToggle={toggleMarker}
+        onClick={() => setMarkers(m => m)}
+      />
+      <Controls
+        maskType={maskType}
+        setMaskType={setMaskType}
+        mosaicSize={mosaicSize}
+        setMosaicSize={setMosaicSize}
+        emoji={emoji}
+        setEmoji={setEmoji}
+        addMarker={addMarker}
+        downloadImage={downloadImage}
+      />
     </div>
   )
 }
